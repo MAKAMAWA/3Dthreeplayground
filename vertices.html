@@ -27,7 +27,7 @@
         var scene = new THREE.Scene();
 
 
-        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        var camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 
 
@@ -37,7 +37,7 @@
         document.body.appendChild(renderer.domElement);
 
 
-        var geometry = new THREE.BoxGeometry(50, 50, 50);
+        var geometry = new THREE.BoxGeometry(20, 20, 20);
 
         var material = new THREE.MeshNormalMaterial();
 
@@ -47,15 +47,14 @@
         
         //random shape
         for(var i=0, l=geometry.vertices.length;i<1;i++){
-            geometry.vertices[i].x +=-0+Math.random()*20;
-            geometry.vertices[i].y+=-10+Math.random()*20;
+            geometry.vertices[i].x +=-10+Math.random()*20;
+            geometry.vertices[i].y +=-10+Math.random()*20;
         }
         
         
         cube.rotation.x=0.45;
         cube.rotation.y=-0.25;
         
-        cube.position.x=-20;
 
         camera.position.z = 100;
 
