@@ -26,7 +26,7 @@
         var camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 
-
+        // alpha for background
         var renderer = new THREE.WebGLRenderer({alpha : true});
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
@@ -39,8 +39,12 @@
         var geometry = new THREE.OctahedronGeometry(30);
 
         var color = new THREE.Color("#7BAFD4");
+        
+        
         var material = new THREE.MeshLambertMaterial({
             color: color.getHex(),
+            
+            // only cube's shape 
             wireframe : true
             
         });
