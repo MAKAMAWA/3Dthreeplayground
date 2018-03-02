@@ -17,9 +17,10 @@
 
 <body>
     <script src="js/three.js"></script>
+    <script src="js/OrbitControls.js"></script>
     <script>
         // Our Javascript will go here.
-        var container, scene, camera, renderer, group;
+        var container, scene, camera, renderer, group, controls;
 
         var targetRotation = 0;
 
@@ -109,6 +110,9 @@
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(window.innerWidth, window.innerHeight);
             container.appendChild(renderer.domElement);
+            
+            //add mouse control
+            controls = new THREE.OrbitControls( camera );
 
 
         }
