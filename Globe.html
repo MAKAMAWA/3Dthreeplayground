@@ -18,6 +18,11 @@
 <body>
     <script src="js/three.js"></script>
     <script src="js/OrbitControls.js"></script>
+    <script src="js/EffectComposer.js"></script>
+    <script src="js/RenderPass.js"></script>
+    <script src="js/CopyShader.js"></script>
+    <script src="js/ShaderPass.js"></script>
+    <script src="js/MaskPass.js"></script>
 
 
     <script>
@@ -26,6 +31,11 @@
         var scene;
         var camera;
         var renderer;
+
+        var cameraBG;
+        var sceneBG;
+        var composer;
+
 
 
         function init() {
@@ -95,7 +105,37 @@
 
 
 
+            // Back ground 
+
+            cameraBG = new THREE.OrthographicCamera(-window.innerWidth, window.innerWidth, window.innerHeight, -window.innerHeight, -10000, 10000);
+
+            cameraBG.position.z = 50;
+
+            sceneBG = new THREE.Scene();
+            var materialColor = new THREE.MeshBasicMaterial({
+                map: THREE.ImageUtils.loadTexture("textures/starry_background.jpg"),
+                depthTest: false
+            });
+            var bgPlane = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), materialColor);
+            bgPlane.position.z = -100;
+            bgPlane.scale.set(window.innerWidth * 2, window.innerHeight * 2, 1);
+            sceneBG.add(bgPlane);
+
+            // setup the passes
+            var bgPass = new THREE.RenderPass(sceneBG, cameraBG);
+            var renderPass = new THREE.RenderPass(scene, camera);
+            renderPass.clear = false;
+            var effectCopy = new THREE.ShaderPass(THREE.CopyShader);
+            effectCopy.renderToScreen = true;
+
+            //add passes to the composer
+            composer = new THREE.EffectComposer(renderer);
+            composer.addPass(bgPass);
+            composer.addPass(renderPass);
+            composer.addPass(effectCopy);
+
             document.body.appendChild(renderer.domElement);
+
             render();
 
             //add mouse control
@@ -123,8 +163,13 @@
 
         function render() {
 
+            //scene.getObjectByName('earth').rotation.y += 0.01;
+            //scene.getObjectByName('cloud').rotation.y += 0.01 * 1.1;
+            // weird thing happen when rotate ByName cloud
+            
+            renderer.autoClear = false;
+            composer.render();
 
-            renderer.render(scene, camera);
             requestAnimationFrame(render);
 
         }
@@ -133,7 +178,7 @@
 
 
 
-        window.onload = init();
+        window.onload = init;
     </script>
 </body>
 
